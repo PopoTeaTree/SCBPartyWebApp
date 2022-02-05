@@ -1,0 +1,76 @@
+.ant-btn-primary.btn-join {
+    border-radius: "6px";
+    border-color: gray;
+    background-color: white;
+    width: 70%;
+    font-size: medium;
+    color: black;
+}
+.ant-btn-primary.btn-join-max {
+    border-radius: "6px";
+    border-color: gray;
+    background-color: white;
+    font-size: medium;
+    color: black;
+    width: 100%;
+}
+.ant-btn-primary.btn-join:hover,
+.ant-btn-primary.btn-join:active {
+    border-color: gray;
+    background-color: white;
+    border-radius: "20px";
+    width: 70%;
+    color:  gray;
+}
+.ant-btn-primary.btn-submit {
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto;
+    background-image: none;
+
+}
+
+.content {
+    flex: 1;
+    min-height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-list {
+    width: '25%';
+    align-items: 'center';
+}
+
+.py-50 {
+    padding: 50px;
+    padding-bottom: 50px;
+}
+
+.main {
+    width: 328px;
+    margin-left: 20px;
+    margin:  0 auto;
+}
+
+.Login-logo {
+    height: 68px;
+    vertical-align: top;
+}
+#login-form .login-form {
+    width: 100%;
+}
+
+#login-form .login-form-buttom {
+    width: 100%;
+}
+
+
+
