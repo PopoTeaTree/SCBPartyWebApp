@@ -1,3 +1,19 @@
+# SCB Party web application
+This is a part of Join the Party Web Application SCB10X test. This web application is for joining, creating partys. 
+User can :
+- Login - Email and Password
+- Register - Email and Password and checkbox for consent
+- Party Listing - List parties/events in the system where users can join the party by clicking “Join”
+- Create Party/Event - party name and # of party members
+
+## Development and Dependency
+- React
+- AntD framwork
+- react-router-dom v6
+
+## Configuration
+- localhost `https://localhost:3000`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
