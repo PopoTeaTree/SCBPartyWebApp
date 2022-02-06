@@ -8,12 +8,10 @@ import CreateParty from './pages/CreateParty';
 import Register from './pages/Register';
 
 function PrivateOutlet() {
-  const auth = localStorage.getItem("Authorization");
   const isLogin = localStorage.getItem("isLogIn");
   let deA = isLogin === 'true' ? true : false;
-  let deB = auth === 'true' ? true : false;
-  console.log(deA,deB);
-  return deA && deB ? <Outlet /> : <Navigate to="/login" />;
+  console.log(deA);
+  return deA ? <Outlet /> : <Navigate to="/login" />;
 }
 
 function App() {

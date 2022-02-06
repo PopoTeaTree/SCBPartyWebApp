@@ -5,6 +5,7 @@ import authService from "./authService";
 axios.interceptors.request.use(
     (config) => {
     const auth = localStorage.getItem("Authorization");
+    console.log("Auth: ",auth);
     if(auth){
         config.headers["Authorization"] = auth;
     }

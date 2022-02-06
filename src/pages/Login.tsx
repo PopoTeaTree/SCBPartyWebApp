@@ -75,7 +75,7 @@ const Login: React.FC = () => {
                                 name="email"
                                 rules={[
                                     { required: true, message: 'กรุณากรอก อีเมล' },
-                                    // { type: 'email', warningOnly: true, message: 'รูปแบบ อีเมล ไม่ถูกต้อง' }
+                                    { type: 'email', warningOnly: true, message: 'รูปแบบ อีเมล ไม่ถูกต้อง' }
                                 ]}
                             >
                                 <Input />
