@@ -14,6 +14,15 @@ User can :
 ## Configuration
 - localhost `https://localhost:3000`
 
+## Some Detail
+- Joining : The web will show all the party, and user can see and click join. But if the user have already joined, or the party is full,
+  the user cannot join and the web will pop up alert message.
+- Username or email : username and email is are same diffinition in this project.
+- After joining, do not forget to refreash page. there are some time problem with refreach process.
+
+## P.S.
+This project use localhost both of frontend and backend, so there have a problem with Cross-Origin. Don't forget to disable this.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
