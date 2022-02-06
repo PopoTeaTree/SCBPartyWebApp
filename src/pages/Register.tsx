@@ -26,6 +26,7 @@ const tailFormItemLayout = {
 const Register: React.FC = () => {
     const [registerForm] = Form.useForm();
     let navigate = useNavigate();
+    
     const onFinish = async (values: any) => {
         console.log(values)
         if(values){
@@ -33,7 +34,7 @@ const Register: React.FC = () => {
             let password = values.password ? values.password : "";
             if(username && password ){
                 try {
-                    await eventService
+                    await authService
                     .register(username,password)
                     .then( (res) => {
                         if(res.data.result_code === "1"){

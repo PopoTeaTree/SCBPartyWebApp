@@ -6,14 +6,35 @@ import { format } from "path/posix";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PartyCard from "./PartyCard";
+import EventAlert from './EventAlert';
+import eventService from '../services/eventService';
 
 const CreateParty: React.FC = () => {
     const [isCreate,setIsCreate] = useState<Boolean>(false);
     const [form] = Form.useForm();
     let navigate = useNavigate();
 
-    const onSave = (values:any) => {
-        console.log(values);
+    const onSave = async (values:any) => {
+        if(values){
+            let partyName = values.partyname ? values.partyname : "";
+            let amount = values.amount ? values.amount : "";
+            if(partyName && amount ){
+                try {
+                    await eventService.createParty(partyName, amount).then( (res) => {
+                        console.log(res);
+                        if(res.data.result_code === "1"){
+                            EventAlert.Suceess("เพิ่มปาร์ตี้ใหม่สำเร็จงานสำเร็จ");
+                            navigate(`/partylist`);
+                        }else{
+                            EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
+                        }
+                    })
+                } catch (error) {
+                    console.log(error);
+                    EventAlert.Error("กรุณาลองอีกครั้ง","");
+                }
+            }
+        }
     }
 
     return (
@@ -42,10 +63,10 @@ const CreateParty: React.FC = () => {
                         form={form}
                         layout="vertical"
                     >
-                        <Form.Item label="ชื่อปาร์ตี้" name="username" rules={[{ required: true }]}>
+                        <Form.Item label="ชื่อปาร์ตี้" name="partymane" rules={[{ required: true, message: 'กรุณากรอก ชื่อปาร์ตี้' }]}>
                             <Input style={{width:"100%"}}/>
                         </Form.Item>
-                        <Form.Item label="จำนวนคนที่ขาด" name="password" rules={[{ required: true }]}>
+                        <Form.Item label="จำนวนคนที่ขาด" name="amount" rules={[{ required: true, message: 'กรุณากรอก จำนวนคนที่ขาด' }]}>
                             <InputNumber min={1} max={99}  style={{width:"100%"}}/>
                         </Form.Item>
                         <Form.Item label=" ">

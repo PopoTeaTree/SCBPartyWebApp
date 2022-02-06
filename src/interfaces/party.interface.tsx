@@ -3,5 +3,13 @@ export interface PartyInterface {
     key?: string,
     partyName?: string,
     amount?: number,
-    member?: number
+    member?: string
+}
+
+export interface PartyListnterface {
+    id?: string,
+    key?: string,
+    partyName?: string,
+    amount?: number | string,
+    member?: number | string
 }

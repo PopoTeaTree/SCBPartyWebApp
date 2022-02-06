@@ -20,6 +20,7 @@ const Login: React.FC = () => {
                     await authService
                     .login(username,password)
                     .then( (res) => {
+                        console.log("res: ",res);
                         if(res.data.result_code === "1"){
                             localStorage.setItem("acessToken",res.data.token);
                             localStorage.setItem("userId",res.data.userKey);
@@ -72,7 +73,7 @@ const Login: React.FC = () => {
                                 name="email"
                                 rules={[
                                     { required: true, message: 'กรุณากรอก อีเมล' },
-                                    { type: 'email', warningOnly: true, message: 'รูปแบบ อีเมล ไม่ถูกต้อง' }
+                                    // { type: 'email', warningOnly: true, message: 'รูปแบบ อีเมล ไม่ถูกต้อง' }
                                 ]}
                             >
                                 <Input />

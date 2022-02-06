@@ -1,20 +1,25 @@
 import './main.css'
 import 'antd/dist/antd.css'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Avatar, Button, Row, Col } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Content } from 'antd/lib/layout/layout';
 import Meta from 'antd/lib/card/Meta';
-import { PartyInterface } from '../interfaces/party.interface';
+import { PartyInterface, PartyListnterface } from '../interfaces/party.interface';
+import EventAlert from './EventAlert';
+import eventService from '../services/eventService';
+import { useNavigate } from 'react-router';
 
 interface cardInterface {
-    party: PartyInterface
+    party: PartyListnterface;
+    // setRefreash: Function;
 }
 
 const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
-    
+    let navigate = useNavigate();
     const breakpoint = 550;
     const [width, setWidth] = React.useState(window.innerWidth);
+    const [member, setMember] =  useState<Number>();
 
     React.useEffect(() => {
     const handleWindowResize = () => setWidth(window.innerWidth);
@@ -22,8 +27,35 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
         return () => window.removeEventListener("resize", handleWindowResize);
     }, []);
 
-    const onJoin = () => {
+    useEffect(()=>{
+        let buffer = props.party.member ? Number(props.party.member) : 0;
+        setMember(buffer);
+    },[props]);
+
+    const onJoin = async() => {
         console.log("Join: ", props.party)
+        if(props.party.key){
+            let partyKey = props.party.key;
+            try {
+                await eventService
+                .joinParty(partyKey)
+                .then( (res) => {
+                    console.log("res: ",res);
+                    if(res.data.result_code === "1"){
+                        localStorage.setItem("acessToken",res.data.token);
+                        localStorage.setItem("userId",res.data.userKey);
+                        localStorage.setItem("auth","true");
+                        EventAlert.Suceess("เข้าร่วมปาร์ตี้สำเร็จ");
+                        navigate(`/partylist`);
+                    }else{
+                        EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
+                    }
+                })
+            } catch (error) {
+                console.log(error);
+                EventAlert.Error("กรุณาลองอีกครั้ง","");
+            }
+        }
     }
     return (
         <React.Fragment>
@@ -45,7 +77,7 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                 <div className="additional" style={{ marginTop: "20px"}}>
                     {width < 550 ?
                         <Col span={24}>
-                            <div style={{textAlign: "center"}}>{props.party.member}/{props.party.amount}</div>
+                            <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.amount}</div>
                             <div style={{marginTop: "5px"}}/>
                             <Button 
                                 type="primary"
@@ -58,7 +90,7 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                     :
                         <Row>
                             <Col span={12}>
-                                <div style={{textAlign: "center"}}>{props.party.member}/{props.party.amount}</div>
+                                <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.amount}</div>
                             </Col>
                             <Col span={12}>
                                 <Button 
