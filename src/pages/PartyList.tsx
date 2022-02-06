@@ -3,7 +3,7 @@ import { Button, Col, Layout, PageHeader, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PartyInterface, PartyListnterface } from "../interfaces/party.interface";
+import { PartyInterface } from "../interfaces/party.interface";
 import eventService from "../services/eventService";
 import EventAlert from "./EventAlert";
 import PartyCard from "./PartyCard";
@@ -22,16 +22,19 @@ const useViewport = () => {
 }
 
 const PartyList: React.FC = () => {
-    const [partyData,setPartyData] = useState<Array<PartyListnterface>>([]);
-    const [isRe,setIsRe] = useState<boolean>(false);
+    const [partyData,setPartyData] = useState<Array<PartyInterface>>([]);
+    const [refreashWin, setRefreach] = useState<boolean>(false);
     const { width } = useViewport();
     const breakpoint = 700;
 
     let navigate = useNavigate();
 
-    const reFreash = (isRefreash: boolean) => {
-       if(isRefreash) window.location.reload();
-    }
+    useEffect(()=>{
+        if(refreashWin){
+            window.location.reload();
+            setRefreach(false);
+        }
+    },[refreashWin]);
 
     useEffect(()=>{
         const getPartyList = async() =>{
@@ -41,17 +44,17 @@ const PartyList: React.FC = () => {
                 .then( (res ) => {
                     console.log(res);
                     if(res.data){
-                        let addKey = res.data.party_list.map((x: any, i: number)=>({...x,key: i}));
+                        let addKey = res.data.party_list.map((x: any, i: number)=>({...x,id: i}));
                         setPartyData(addKey);
                     }else{
                         EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
-                        navigate(`/login`);
+                        // navigate(`/login`);
                     }
                 })
             } catch (error) {
                 console.log(error);
                 EventAlert.Error("กรุณาลองอีกครั้ง","");
-                navigate(`/login`);
+                // navigate(`/login`);
             }
         }
         getPartyList();
@@ -81,13 +84,15 @@ const PartyList: React.FC = () => {
                 <div className="content" >
                     <Row gutter={[8, 8]}>
                         {
-                            partyData.map((party: PartyListnterface)=>(
+                            partyData.map((party: PartyInterface)=>(
                                 <Col 
                                     span={12} 
-                                    key={`col-${party.key}`} 
-                                    // style={{ width:"30%", paddingLeft:"5%", paddingRight:"5%"}}
+                                    key={`col-${party.keyParty}`} 
                                 >
-                                    <PartyCard party={party} />
+                                    <PartyCard 
+                                        party={party} 
+                                        setRefreash={()=>setRefreach} 
+                                    />
                                 </Col>
                             ))
                         }

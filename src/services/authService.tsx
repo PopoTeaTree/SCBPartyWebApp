@@ -21,11 +21,10 @@ const register = (username: string, password: string) => {
     return axios.post(urlRegister+"?username="+requestBody.username+"&password="+requestBody.password);
 }
 
-const logout = (username: string, password: string) => {
-    const refreshToken = localStorage.getItem("refreashToken");
+const logout = (password: string) => {
     const userId = localStorage.getItem("userId")
     const requestBody = {
-        username: username,
+        username: userId,
         password: password,
     }
 }

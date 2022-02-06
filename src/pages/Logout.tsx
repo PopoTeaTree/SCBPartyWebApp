@@ -10,9 +10,10 @@ const Logout: React.FC = () => {
     const onLogOut = (values: any) => {
         console.log(values)
         if(values){
-            localStorage.setItem("acessToken", "");
+            localStorage.setItem("Authorization","");
             localStorage.setItem("userId","");
             localStorage.setItem("auth","false");
+            localStorage.setItem("isLogIn","false");
             navigate(`/login`)
         }else{
             console.log('Error');

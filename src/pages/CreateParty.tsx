@@ -15,12 +15,13 @@ const CreateParty: React.FC = () => {
     let navigate = useNavigate();
 
     const onSave = async (values:any) => {
+        console.log(values)
         if(values){
-            let partyName = values.partyname ? values.partyname : "";
-            let amount = values.amount ? values.amount : "";
+            let partyName = values.partyname;
+            let amount = values.amount;
             if(partyName && amount ){
                 try {
-                    await eventService.createParty(partyName, amount).then( (res) => {
+                    await eventService.createNewParty(partyName, amount).then( (res) => {
                         console.log(res);
                         if(res.data.result_code === "1"){
                             EventAlert.Suceess("เพิ่มปาร์ตี้ใหม่สำเร็จงานสำเร็จ");
@@ -63,7 +64,7 @@ const CreateParty: React.FC = () => {
                         form={form}
                         layout="vertical"
                     >
-                        <Form.Item label="ชื่อปาร์ตี้" name="partymane" rules={[{ required: true, message: 'กรุณากรอก ชื่อปาร์ตี้' }]}>
+                        <Form.Item label="ชื่อปาร์ตี้" name="partyname" rules={[{ required: true, message: 'กรุณากรอก ชื่อปาร์ตี้' }]}>
                             <Input style={{width:"100%"}}/>
                         </Form.Item>
                         <Form.Item label="จำนวนคนที่ขาด" name="amount" rules={[{ required: true, message: 'กรุณากรอก จำนวนคนที่ขาด' }]}>

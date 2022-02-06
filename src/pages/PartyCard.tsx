@@ -5,14 +5,14 @@ import { Card, Avatar, Button, Row, Col } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Content } from 'antd/lib/layout/layout';
 import Meta from 'antd/lib/card/Meta';
-import { PartyInterface, PartyListnterface } from '../interfaces/party.interface';
+import { PartyInterface } from '../interfaces/party.interface';
 import EventAlert from './EventAlert';
 import eventService from '../services/eventService';
 import { useNavigate } from 'react-router';
 
 interface cardInterface {
-    party: PartyListnterface;
-    // setRefreash: Function;
+    party: PartyInterface;
+    setRefreash: Function;
 }
 
 const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
@@ -34,13 +34,11 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
 
     const onJoin = async() => {
         console.log("Join: ", props.party)
-        if(props.party.key){
-            let partyKey = props.party.key;
+        if(props.party.keyParty){
+            let partyKey = props.party.keyParty;
             try {
-                await eventService
-                .joinParty(partyKey)
+                await eventService.joinAParty(partyKey)
                 .then( (res) => {
-                    console.log("res: ",res);
                     if(res.data.result_code === "1"){
                         localStorage.setItem("acessToken",res.data.token);
                         localStorage.setItem("userId",res.data.userKey);
@@ -50,6 +48,7 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                     }else{
                         EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
                     }
+                    props.setRefreash(true);
                 })
             } catch (error) {
                 console.log(error);
@@ -76,8 +75,8 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                 />
                 <div className="additional" style={{ marginTop: "20px"}}>
                     {width < 550 ?
-                        <Col span={24}>
-                            <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.amount}</div>
+                        <Col key={`col-550-window`} span={24}>
+                            <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.maxAmount}</div>
                             <div style={{marginTop: "5px"}}/>
                             <Button 
                                 type="primary"
@@ -89,8 +88,8 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                         </Col>
                     :
                         <Row>
-                            <Col span={12}>
-                                <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.amount}</div>
+                            <Col key={`col-12-2`} span={12}>
+                                <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.maxAmount}</div>
                             </Col>
                             <Col span={12}>
                                 <Button 

@@ -22,9 +22,10 @@ const Login: React.FC = () => {
                     .then( (res) => {
                         console.log("res: ",res);
                         if(res.data.result_code === "1"){
-                            localStorage.setItem("acessToken",res.data.token);
+                            localStorage.setItem("Authorization",res.data.token);
                             localStorage.setItem("userId",res.data.userKey);
                             localStorage.setItem("auth","true");
+                            localStorage.setItem("isLogIn","true");
                             EventAlert.Suceess("การเข้าใช้งานสำเร็จ");
                             navigate(`/partylist`);
                         }else{
@@ -37,9 +38,10 @@ const Login: React.FC = () => {
                 }
             }
         }else{
-            localStorage.setItem("acessToken", "");
+            localStorage.setItem("Authorization","");
             localStorage.setItem("userId","");
             localStorage.setItem("auth","false");
+            localStorage.setItem("isLogIn","false");
         }
     };
     
