@@ -1,7 +1,18 @@
+/**
+ *  httpService.tsx
+ *
+ *  http service for setting API axios with header
+ *
+ *  Created by
+ *  Thitiporn Sukpartcharoen 
+ *
+ *  6 Jan 2022
+ */
 import axios from "axios";
-import environment from "../environment";
-import authService from "./authService";
 
+/**
+  * Set axios with header
+*/
 axios.interceptors.request.use(
     (config) => {
     const auth = localStorage.getItem("Authorization");

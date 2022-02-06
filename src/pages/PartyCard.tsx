@@ -1,9 +1,17 @@
+/**
+ *  PartyCard.tsx
+ *
+ *  Party card detail
+ *
+ *  Created by
+ *  Thitiporn Sukpartcharoen 
+ *
+ *  6 Jan 2022
+ */
 import './main.css'
 import 'antd/dist/antd.css'
 import React, { useEffect, useState } from "react";
-import { Card, Avatar, Button, Row, Col } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Content } from 'antd/lib/layout/layout';
+import { Card, Button, Row, Col } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { PartyInterface } from '../interfaces/party.interface';
 import EventAlert from './EventAlert';
@@ -11,38 +19,37 @@ import eventService from '../services/eventService';
 import { useNavigate } from 'react-router';
 
 interface cardInterface {
+    /** party interface */
     party: PartyInterface;
+    /** function for setting value to refreash page */
     setRefreash: Function;
 }
 
 const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
+    /** validate form navigate for routing */
     let navigate = useNavigate();
-    const breakpoint = 550;
+    /** window screen width */
     const [width, setWidth] = React.useState(window.innerWidth);
-    const [member, setMember] =  useState<Number>();
 
+    /** screen width watcher  */
     React.useEffect(() => {
     const handleWindowResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleWindowResize);
         return () => window.removeEventListener("resize", handleWindowResize);
     }, []);
 
-    useEffect(()=>{
-        let buffer = props.party.member ? Number(props.party.member) : 0;
-        setMember(buffer);
-    },[props]);
-
+    /**
+     * Join party function which manage request for joinning
+     * @param values 	input data from form field 
+     */
     const onJoin = async() => {
-        console.log("Join: ", props.party)
+        // console.log("Join: ", props.party)
         if(props.party.keyParty){
             let partyKey = props.party.keyParty;
             try {
                 await eventService.joinAParty(partyKey)
                 .then( (res) => {
                     if(res.data.result_code === "1"){
-                        localStorage.setItem("acessToken",res.data.token);
-                        localStorage.setItem("userId",res.data.userKey);
-                        localStorage.setItem("auth","true");
                         EventAlert.Suceess("เข้าร่วมปาร์ตี้สำเร็จ");
                         navigate(`/partylist`);
                     }else{

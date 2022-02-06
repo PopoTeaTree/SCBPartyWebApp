@@ -1,35 +1,36 @@
+/**
+ *  Register.tsx
+ *
+ *  Manage register by input and validate input
+ *
+ *  Created by
+ *  Thitiporn Sukpartcharoen 
+ *
+ *  6 Jan 2022
+ */
 import './main.css'
 import 'antd/dist/antd.css';
 import React from "react";
 import { Form, Input, Button, Checkbox, Layout, Breadcrumb, PageHeader } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
 import { useNavigate } from 'react-router-dom';
 import { CaretLeftOutlined } from '@ant-design/icons';
 import authService from '../services/authService';
-import eventService from '../services/eventService';
 import EventAlert from './EventAlert';
-
-const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  };
-
   
 const Register: React.FC = () => {
+     /** validate form state */
     const [registerForm] = Form.useForm();
+    /** validate form navigate for routing */
     let navigate = useNavigate();
     
+    /**
+     * Managment register function which collect input, and request
+     * @param values 	input data from form field 
+     */
     const onFinish = async (values: any) => {
         console.log(values)
         if(values){
+            /** get email and password */
             let username = values.email ? values.email : "";
             let password = values.password ? values.password : "";
             if(username && password ){
@@ -38,9 +39,6 @@ const Register: React.FC = () => {
                     .register(username,password)
                     .then( (res) => {
                         if(res.data.result_code === "1"){
-                            localStorage.setItem("acessToken",res.data.token);
-                            localStorage.setItem("userId",res.data.userKey);
-                            localStorage.setItem("auth","true");
                             EventAlert.Suceess("ลงทะเบียนเพื่อใช้งานสำเร็จ");
                             navigate(`/login`);
                         }else{
@@ -52,15 +50,7 @@ const Register: React.FC = () => {
                     EventAlert.Error("กรุณาลองอีกครั้ง","");
                 }
             }
-        }else{
-            localStorage.setItem("acessToken", "");
-            localStorage.setItem("userId","");
-            localStorage.setItem("auth","false");
         }
-    };
-    
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
     };
 
     return (
@@ -86,7 +76,6 @@ const Register: React.FC = () => {
                             name="basic"
                             initialValues={{ remember: true }}
                             onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
                             autoComplete="off"
                             form={registerForm}
                             className="input-form"

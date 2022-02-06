@@ -1,6 +1,15 @@
-import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Layout, PageHeader, Row } from "antd";
-import { Content } from "antd/lib/layout/layout";
+/**
+ *  PartyList.tsx
+ *
+ *  Manage Party list page to show party card
+ *
+ *  Created by
+ *  Thitiporn Sukpartcharoen 
+ *
+ *  6 Jan 2022
+ */
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Col, PageHeader, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PartyInterface } from "../interfaces/party.interface";
@@ -8,27 +17,15 @@ import eventService from "../services/eventService";
 import EventAlert from "./EventAlert";
 import PartyCard from "./PartyCard";
 
-const useViewport = () => {
-    const [width, setWidth] = React.useState(window.innerWidth);
-  
-    React.useEffect(() => {
-      const handleWindowResize = () => setWidth(window.innerWidth);
-      window.addEventListener("resize", handleWindowResize);
-      return () => window.removeEventListener("resize", handleWindowResize);
-    }, []);
-  
-    // Return the width so we can use it in our components
-    return { width };
-}
-
 const PartyList: React.FC = () => {
+    /** Array of all party detail */
     const [partyData,setPartyData] = useState<Array<PartyInterface>>([]);
+    /** refreash page sign */
     const [refreashWin, setRefreach] = useState<boolean>(false);
-    const { width } = useViewport();
-    const breakpoint = 700;
-
+    /** validate form navigate for routing */
     let navigate = useNavigate();
 
+    /** refreash watch */
     useEffect(()=>{
         if(refreashWin){
             window.location.reload();
@@ -36,6 +33,7 @@ const PartyList: React.FC = () => {
         }
     },[refreashWin]);
 
+    /** get all party detail */
     useEffect(()=>{
         const getPartyList = async() =>{
             try {

@@ -1,19 +1,30 @@
+/**
+ *  CreateParty.tsx
+ *
+ *  Create party card management
+ *
+ *  Created by
+ *  Thitiporn Sukpartcharoen 
+ *
+ *  6 Jan 2022
+ */
 import './main.css'
 import { CaretLeftOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputNumber, Layout, PageHeader } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import { format } from "path/posix";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PartyCard from "./PartyCard";
 import EventAlert from './EventAlert';
 import eventService from '../services/eventService';
 
 const CreateParty: React.FC = () => {
-    const [isCreate,setIsCreate] = useState<Boolean>(false);
+    /** validate form state */
     const [form] = Form.useForm();
+    /** validate form navigate for routing */
     let navigate = useNavigate();
-
+    /**
+     * Save new party function which get data from input and manage request.
+     * @param values 	input data from form field 
+     */
     const onSave = async (values:any) => {
         console.log(values)
         if(values){

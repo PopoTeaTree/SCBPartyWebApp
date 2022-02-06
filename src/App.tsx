@@ -1,5 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
+/**
+ *  App.tsx
+ *
+ *  Main manage application which manage route page 
+ *  and check user is already log in.
+ *
+ *  Created by
+ *  Thitiporn Sukpartcharoen 
+ *
+ *  6 Jan 2022
+ */
 import './App.css';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
@@ -7,6 +16,10 @@ import PartyList from './pages/PartyList';
 import CreateParty from './pages/CreateParty';
 import Register from './pages/Register';
 
+/**
+  * Check user has already register.
+	* @return page to go
+*/
 function PrivateOutlet() {
   const isLogin = localStorage.getItem("isLogIn");
   let deA = isLogin === 'true' ? true : false;
@@ -16,6 +29,7 @@ function PrivateOutlet() {
 
 function App() {
   return (
+    // Path router
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
