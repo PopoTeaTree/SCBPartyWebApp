@@ -1,4 +1,4 @@
-# SCB Party web application
+# SCB Party Web Application
 This is a part of Join the Party Web Application SCB10X test. This web application is for joining, creating partys. 
 User can :
 - Login - Email and Password
