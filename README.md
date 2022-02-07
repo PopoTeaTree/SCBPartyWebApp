@@ -21,7 +21,8 @@ User can :
 - After joining, do not forget to refreash page. there are some time problem with refreach process.
 
 ## P.S.
-This project use localhost both of frontend and backend, so there have a problem with Cross-Origin. ### Don't forget to disable Cross-Origin.
+This project use localhost both of frontend and backend, so there have a problem with Cross-Origin. 
+### `Don't forget to disable Cross-Origin.`
 
 # Getting Started with Create React App
 
