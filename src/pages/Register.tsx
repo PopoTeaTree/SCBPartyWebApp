@@ -28,7 +28,7 @@ const Register: React.FC = () => {
      * @param values 	input data from form field 
      */
     const onFinish = async (values: any) => {
-        console.log(values)
+        // console.log(values)
         if(values){
             /** get email and password */
             let username = values.email ? values.email : "";
@@ -40,6 +40,7 @@ const Register: React.FC = () => {
                     .then( (res) => {
                         if(res.data.result_code === "1"){
                             EventAlert.Suceess("ลงทะเบียนเพื่อใช้งานสำเร็จ");
+                            localStorage.setItem("RefreashLogin","true");
                             navigate(`/login`);
                         }else{
                             EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
@@ -52,16 +53,24 @@ const Register: React.FC = () => {
             }
         }
     };
-
+    /**
+     * Go back to login page function
+     */
+    const onBack =()=>{
+        // set refreash sign for login page
+        localStorage.setItem("RefreashLogin","true");
+        navigate(`/login`);
+    }
     return (
         <React.Fragment>
             <PageHeader
                 className="site-page-header"
+                key="register-page-header"
                 title=""
                 extra={[ 
                     <Button 
                         key="button-create-party"
-                        onClick={()=>{navigate(`/login`)}} 
+                        onClick={onBack} 
                         icon={<CaretLeftOutlined />}
                     >
                         Back

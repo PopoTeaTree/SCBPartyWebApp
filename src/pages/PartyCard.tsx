@@ -50,12 +50,15 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                 await eventService.joinAParty(partyKey)
                 .then( (res) => {
                     if(res.data.result_code === "1"){
+                        // alert success message
                         EventAlert.Suceess("เข้าร่วมปาร์ตี้สำเร็จ");
                         navigate(`/partylist`);
+                        // send back refreash partylist page
+                        props.setRefreash(true);
                     }else{
+                        // alert error message
                         EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
                     }
-                    props.setRefreash(true);
                 })
             } catch (error) {
                 console.log(error);
@@ -63,14 +66,22 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
             }
         }
     }
+
+    const DisableJoin = () => {
+        if ( Number(props.party.member) >= Number(props.party.maxAmount) ) return true
+        return false
+    }
+
     return (
         <React.Fragment>
             <div style={{paddingTop: "20px"}}/>
             <Card
+                key="party-card"
                 className="content-list"
                 cover={
                     <img
                         alt="example"
+                        // mock up image data
                         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
                     />
                 }
@@ -83,12 +94,16 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                 <div className="additional" style={{ marginTop: "20px"}}>
                     {width < 550 ?
                         <Col key={`col-550-window`} span={24}>
-                            <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.maxAmount}</div>
+                            <div style={{textAlign: "center"}}>
+                                {/* check and display memeber */}
+                                {props.party.member ? props.party.member : 0}/{props.party.maxAmount}
+                            </div>
                             <div style={{marginTop: "5px"}}/>
                             <Button 
                                 type="primary"
                                 className="btn-join-max"
                                 onClick={()=>onJoin()}
+                                disabled={DisableJoin()}
                             >
                                 Join
                             </Button>
@@ -96,13 +111,16 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                     :
                         <Row>
                             <Col key={`col-12-2`} span={12}>
-                                <div style={{textAlign: "center"}}>{props.party.member ? props.party.member : 0}/{props.party.maxAmount}</div>
+                                <div style={{textAlign: "center"}}>
+                                    {props.party.member ? props.party.member : 0}/{props.party.maxAmount}
+                                </div>
                             </Col>
                             <Col span={12}>
                                 <Button 
                                     type="primary"
                                     className="btn-join"
                                     onClick={()=>onJoin()}
+                                    disabled={DisableJoin()}
                                 >
                                     Join
                                 </Button>
@@ -110,7 +128,7 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                         </Row>
                     }
                 </div>
-        </Card>
+            </Card>
         </React.Fragment>
     );
 }

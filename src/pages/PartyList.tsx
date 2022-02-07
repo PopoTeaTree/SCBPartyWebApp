@@ -15,21 +15,24 @@ import { useNavigate } from "react-router-dom";
 import { PartyInterface } from "../interfaces/party.interface";
 import eventService from "../services/eventService";
 import EventAlert from "./EventAlert";
+import Logout from "./Logout";
 import PartyCard from "./PartyCard";
 
 const PartyList: React.FC = () => {
     /** Array of all party detail */
     const [partyData,setPartyData] = useState<Array<PartyInterface>>([]);
     /** refreash page sign */
-    const [refreashWin, setRefreach] = useState<boolean>(false);
+    const [refreashWin, setRefreash] = useState<boolean>(false);
     /** validate form navigate for routing */
     let navigate = useNavigate();
 
-    /** refreash watch */
+    /** refreash watcher */
     useEffect(()=>{
         if(refreashWin){
-            window.location.reload();
-            setRefreach(false);
+            setTimeout(()=> {
+                window.location.reload();
+            }, 2000)
+            setRefreash(false);
         }
     },[refreashWin]);
 
@@ -40,19 +43,19 @@ const PartyList: React.FC = () => {
                 await eventService
                 .getPartyList()
                 .then( (res ) => {
-                    console.log(res);
+                    // console.log(res);
                     if(res.data){
                         let addKey = res.data.party_list.map((x: any, i: number)=>({...x,id: i}));
                         setPartyData(addKey);
                     }else{
-                        EventAlert.Error("กรุณาลองอีกครั้ง",res.data.msg);
-                        // navigate(`/login`);
+                        EventAlert.Error("กรุณาเพิ่มปาร์ตี้",res.data.msg);
                     }
                 })
             } catch (error) {
                 console.log(error);
                 EventAlert.Error("กรุณาลองอีกครั้ง","");
-                // navigate(`/login`);
+                localStorage.setItem("RefreashLogin","true");
+                navigate(`/login`);
             }
         }
         getPartyList();
@@ -62,6 +65,7 @@ const PartyList: React.FC = () => {
         <React.Fragment>
             <PageHeader
                 className="site-page-header"
+                key="pageheader-partylist"
                 title="ปาร์ตี้ทั้งหมด"
                 extra={[ 
                     <Button 
@@ -71,30 +75,36 @@ const PartyList: React.FC = () => {
                     >
                         สร้างปาร์ตี้ใหม่
                     </Button>,
-                    <Button 
-                        key="button-logout-party"
-                        onClick={()=>{navigate(`/login`)}}
-                    >
-                        Log out
-                    </Button>
+                    <Logout />
                 ]}
             />
                 <div className="content" >
-                    <Row gutter={[8, 8]}>
-                        {
-                            partyData.map((party: PartyInterface)=>(
-                                <Col 
-                                    span={12} 
-                                    key={`col-${party.keyParty}`} 
-                                >
-                                    <PartyCard 
-                                        party={party} 
-                                        setRefreash={()=>setRefreach} 
-                                    />
-                                </Col>
-                            ))
-                        }
-                    </Row>
+                    {/* Display card list by check if the party has more than one */}
+                    {
+                        partyData.length === 1 ?
+                        // Only have one party in party list
+                        <PartyCard 
+                            party={partyData[0]} 
+                            setRefreash={(value: boolean)=>setRefreash(value)} 
+                        />
+                    :
+                        // More than one party case
+                        <Row gutter={[8, 8]}>
+                            {
+                                partyData.map((party: PartyInterface)=>(
+                                    <Col 
+                                        span={12} 
+                                        key={`col-${party.keyParty}`} 
+                                    >
+                                        <PartyCard 
+                                            party={party} 
+                                            setRefreash={(value: boolean)=>setRefreash(value)} 
+                                        />
+                                    </Col>
+                                ))
+                            }
+                        </Row>
+                    }           
                 </div>
         </React.Fragment>
     );

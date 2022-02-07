@@ -26,15 +26,16 @@ const CreateParty: React.FC = () => {
      * @param values 	input data from form field 
      */
     const onSave = async (values:any) => {
-        console.log(values)
         if(values){
             let partyName = values.partyname;
             let amount = values.amount;
             if(partyName && amount ){
+                // console.log(partyName,amount);
                 try {
                     await eventService.createNewParty(partyName, amount).then( (res) => {
-                        console.log(res);
+                        // console.log(res);
                         if(res.data.result_code === "1"){
+                            // Alert success message
                             EventAlert.Suceess("เพิ่มปาร์ตี้ใหม่สำเร็จงานสำเร็จ");
                             navigate(`/partylist`);
                         }else{
@@ -53,6 +54,7 @@ const CreateParty: React.FC = () => {
         <React.Fragment>
             <PageHeader
                 className="site-page-header"
+                key="create-page-header"
                 title="สร้างปาร์ตี้ใหม่"
                 extra={[ 
                     <Button 
@@ -75,10 +77,17 @@ const CreateParty: React.FC = () => {
                         form={form}
                         layout="vertical"
                     >
-                        <Form.Item label="ชื่อปาร์ตี้" name="partyname" rules={[{ required: true, message: 'กรุณากรอก ชื่อปาร์ตี้' }]}>
+                        <Form.Item 
+                            label="ชื่อปาร์ตี้" 
+                            name="partyname" 
+                            rules={[{ required: true, message: 'กรุณากรอก ชื่อปาร์ตี้' }]}
+                        >
                             <Input style={{width:"100%"}}/>
                         </Form.Item>
-                        <Form.Item label="จำนวนคนที่ขาด" name="amount" rules={[{ required: true, message: 'กรุณากรอก จำนวนคนที่ขาด' }]}>
+                        <Form.Item 
+                            label="จำนวนคนที่ขาด" 
+                            name="amount" 
+                            rules={[{ required: true, message: 'กรุณากรอก จำนวนคนที่ขาด' }]}>
                             <InputNumber min={1} max={99}  style={{width:"100%"}}/>
                         </Form.Item>
                         <Form.Item label=" ">
@@ -92,7 +101,7 @@ const CreateParty: React.FC = () => {
                         </Form.Item>
                     </Form>
                 </div>
-                </div>
+            </div>
         </React.Fragment>
     );
 }

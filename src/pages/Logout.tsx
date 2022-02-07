@@ -21,12 +21,16 @@ const Logout: React.FC = () => {
     let navigate = useNavigate();
     /** clear local storage function */
     const onLogOut = (values: any) => {
-        console.log(values)
+        // console.log(values)
         if(values){
+            /** Validate local storage of user information */
             localStorage.setItem("Authorization","");
             localStorage.setItem("userId","");
             localStorage.setItem("auth","false");
             localStorage.setItem("isLogIn","false");
+            // set refreash sign for login
+            localStorage.setItem("RefreashLogin","true");
+            // navigate to login page
             navigate(`/login`)
         }else{
             console.log('Error');

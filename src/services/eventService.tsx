@@ -11,20 +11,21 @@
 import axios from "axios";
 import environment from "../environment";
 
+const auth = localStorage.getItem("Authorization");
+const header = {
+    'Authorization': `${auth}`
+}
+const config = {
+    headers: { Authorization: `${auth}` }
+};
+
 const eventService = {
     /**
      * Get party list
      */
     getPartyList(){
         const urlPartyList = environment.SERVICE_URL + "/partylist";
-        let auth = localStorage.getItem("Authorization");
-        console.log("Auth: ",auth);
-        return axios.get( urlPartyList, {
-            headers: {
-              'Authorization': `${auth}`
-            }
-        })
-        // return httpRequest.get(urlPartyList);
+        return axios.get( urlPartyList, { headers: header } );
     },
 
     /**
@@ -34,34 +35,35 @@ const eventService = {
      * @return authtication token
      */
     createNewParty(name: string, amount: Number){
-        const urlPartyList = environment.SERVICE_URL + "/create";
-        let auth = localStorage.getItem("Authorization");
-        console.log("Auth: ",auth);
-        return axios.post(urlPartyList+"?partyName="+name+"&amount="+amount,{
-            headers: {
-              'Authorization': `${auth}`
-            }
-        })
-        // return httpRequest.post(urlPartyList+"?partyName="+name+"&amount="+amount);
+        const urlCreate = environment.SERVICE_URL + "/create"+"?partyName="+name+"&amount="+amount;
+        const bodyParameters = {
+            partyName: name,
+            amount: amount
+         };
+        return axios.post(
+            urlCreate,
+            bodyParameters,
+            config
+        ) 
     },
 
     /**
      * Join a party
-     * @param partyKey      party key	
+     * @param partyKey party key	
      */
     joinAParty(partyKey: string){
-        const urlJoinParty = environment.SERVICE_URL + "/join";
         // get user key
         let userKey = localStorage.getItem("userId");
-        // get token authtication
-        let auth = localStorage.getItem("Authorization");
-        console.log("Auth: ",auth);
-        return axios.post( urlJoinParty+"?partyKey="+partyKey+"&userKey="+userKey,{
-            headers: {
-              'Authorization': `${auth}`
-            }
-        })
-        // return httpRequest.post(urlJoinParty+"?partyKey="+partyKey+"&userKey="+userKey);
+        const urlJoinParty = environment.SERVICE_URL + "/join"+"?partyKey="+partyKey+"&userKey="+userKey;
+        const bodyParameters = {
+            partyKey: partyKey,
+            userKey: userKey
+         };
+        return axios.post(
+            urlJoinParty,
+            bodyParameters,
+            config
+        ) 
     }
     
 }
