@@ -9,7 +9,7 @@
  *  6 Jan 2022
  */
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, PageHeader, Row } from "antd";
+import { Button, Col, Empty, PageHeader, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PartyInterface } from "../interfaces/party.interface";
@@ -79,6 +79,18 @@ const PartyList: React.FC = () => {
                 ]}
             />
                 <div className="content" >
+                    {
+                        partyData &&
+                        <Empty
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                            description={
+                            <span>
+                                ไม่มีข้อมูลปาร์ตี้ กรุณาสร้างปาร์ตี้ใหม่
+                            </span>
+                            }
+                        >
+                        </Empty>
+                    }
                     {/* Display card list by check if the party has more than one */}
                     {
                         partyData.length === 1 ?
