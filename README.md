@@ -1,4 +1,4 @@
-# SCB Party web application
+# SCB Party Web Application
 This is a part of Join the Party Web Application SCB10X test. This web application is for joining, creating partys. 
 User can :
 - Login - Email and Password
@@ -18,10 +18,11 @@ User can :
 - Joining : The web will show all the party, and user can see and click join. But if the user have already joined, or the party is full,
   the user cannot join and the web will pop up alert message.
 - Username or email : username and email is are same diffinition in this project.
-- After joining, do not forget to refreash page. there are some time problem with refreach process.
 
 ## P.S.
-This project use localhost both of frontend and backend, so there have a problem with Cross-Origin. ### Don't forget to disable Cross-Origin.
+This project use localhost both of frontend and backend, so there have a problem with Cross-Origin. 
+Suggust to use Safari web browser to simple disable Cross-origin in develop tab
+### `Don't forget to disable Cross-Origin.`
 
 # Getting Started with Create React App
 
