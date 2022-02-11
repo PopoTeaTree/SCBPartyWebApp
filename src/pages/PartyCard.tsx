@@ -76,7 +76,7 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
         <React.Fragment>
             <div style={{paddingTop: "20px"}}/>
             <Card
-                key="party-card"
+                key={`party-card-${props.party.id}`}
                 className="content-list"
                 cover={
                     <img
@@ -101,7 +101,7 @@ const PartyCard: React.FC<cardInterface> = (props: cardInterface) => {
                             <div style={{marginTop: "5px"}}/>
                             <Button 
                                 type="primary"
-                                className="btn-join-max"
+                                className={`btn-join-max-${props.party.id}`}
                                 onClick={()=>onJoin()}
                                 disabled={DisableJoin()}
                             >
