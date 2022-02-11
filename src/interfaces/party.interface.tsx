@@ -9,7 +9,7 @@
  *  6 Jan 2022
  */
 export interface PartyInterface {
-    id?: string,
+    id: number,
     /** party key */
     keyParty?: string,
     /** party name */

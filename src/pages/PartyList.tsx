@@ -80,7 +80,7 @@ const PartyList: React.FC = () => {
             />
                 <div className="content" >
                     {
-                        partyData &&
+                        partyData.length === 0 &&
                         <Empty
                             image={Empty.PRESENTED_IMAGE_SIMPLE}
                             description={
